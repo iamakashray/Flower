@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realistic Blooming Flowers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #05070f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Beautiful Play/Reset Button */
+        .btn-play {
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff477e, #ff7096);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 71, 126, 0.4);
+            transition: all 0.3s ease;
+            margin-bottom: 50px;
+            z-index: 10;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 71, 126, 0.6);
+        }
+
+        /* Flower Pot/Garden Container */
+        .garden {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* Base Flower Container */
+        .flower {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform-origin: bottom center;
+            /* 4 Seconds Very Slow and Smooth Animation */
+            transition: transform 4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* SVG Sizing */
+        .flower svg {
+            width: 160px;
+            height: 350px;
+            /* Bottom alignment for stems */
+            display: block; 
+            margin-left: -80px; /* Center alignment */
+        }
+
+        /* INITIAL STATE: Flowers hidden underground */
+        .f1 { transform: scale(0) rotate(0deg); }
+        .f2 { transform: scale(0) rotate(-20deg); }
+        .f3 { transform: scale(0) rotate(20deg); }
+        .f4 { transform: scale(0) rotate(-40deg); }
+        .f5 { transform: scale(0) rotate(40deg); }
+
+        /* BLOOM STATE: Very slow spread and scale up */
+        .bloom .f1 { transform: scale(1) rotate(0deg); }
+        .bloom .f2 { transform: scale(1) rotate(-18deg); }
+        .bloom .f3 { transform: scale(1) rotate(18deg); }
+        .bloom .f4 { transform: scale(1) rotate(-38deg); }
+        .bloom .f5 { transform: scale(1) rotate(38deg); }
+
+        /* Subtle wind sway animation after blooming finishes */
+        .bloom .flower {
+            animation: gentleSway 6s ease-in-out infinite alternate;
+        }
+        .bloom .f1 { animation-delay: 3.5s; }
+        .bloom .f2 { animation-delay: 3.8s; }
+        .bloom .f3 { animation-delay: 4.1s; }
+        .bloom .f4 { animation-delay: 4.4s; }
+        .bloom .f5 { animation-delay: 4.7s; }
+
+        @keyframes gentleSway {
+            0% { transform: scale(1) rotate(calc(var(--rot) - 1.5deg)); }
+            100% { transform: scale(1) rotate(calc(var(--rot) + 1.5deg)); }
+        }
+
+        /* Variables for sway animation config */
+        .f1 { --rot: 0deg; }
+        .f2 { --rot: -18deg; }
+        .f3 { --rot: 18deg; }
+        .f4 { --rot: -38deg; }
+        .f5 { --rot: 38deg; }
+
+    </style>
+</head>
+<body>
+
+    <h1>POV: You Can't Afford Flowers 🌼</h1>
+    <button class="btn-play" id="playBtn">Play Animation</button>
+
+    <div class="garden" id="garden">
+        
+        <div class="flower f1">
+            <svg viewBox="0 0 100 200">
+                <path d="M50,200 Q48,120 50,50" stroke="#10b981" stroke-width="4" fill="none"/>
+                <path d="M50,130 Q30,120 45,100" fill="#059669"/>
+                <path d="M50,150 Q70,140 55,120" fill="#059669"/>
+                <circle cx="50" cy="50" r="22" fill="#ef4444"/>
+                <path d="M32,50 Q50,15 68,50 Z" fill="#dc2626"/>
+                <path d="M40,55 Q50,25 60,55 Z" fill="#b91c1c"/>
+            </svg>
+        </div>
+
+        <div class="flower f2">
+            <svg viewBox="0 0 100 200">
+                <path d="M50,200 Q52,110 50,50" stroke="#10b981" stroke-width="4" fill="none"/>
+                <path d="M50,120 Q30,110 45,90" fill="#059669"/>
+                <g fill="#fbbf24">
+                    <ellipse cx="50" cy="25" rx="6" ry="18" />
+                    <ellipse cx="50" cy="75" rx="6" ry="18" />
+                    <ellipse cx="25" cy="50" rx="18" ry="6" />
+                    <ellipse cx="75" cy="50" rx="18" ry="6" />
+                    <ellipse cx="50" cy="50" rx="8" ry="20" transform="rotate(45 50 50)" />
+                    <ellipse cx="50" cy="50" rx="8" ry="20" transform="rotate(-45 50 50)" />
+                </g>
+                <circle cx="50" cy="50" r="14" fill="#78350f"/>
+            </svg>
+        </div>
+
+        <div class="flower f3">
+            <svg viewBox="0 0 100 200">
+                <path d="M50,200 Q46,130 50,50" stroke="#10b981" stroke-width="4" fill="none"/>
+                <path d="M50,140 Q70,130 55,110" fill="#059669"/>
+                <g fill="#ffffff" stroke="#e2e8f0" stroke-width="1">
+                    <path d="M50,50 Q50,10 50,10 Q50,10 50,50" transform="rotate(0 50 50)"/>
+                    <path d="M50,50 Q50,10 50,10 Q50,10 50,50" transform="rotate(60 50 50)"/>
+                    <path d="M50,50 Q50,10 50,10 Q50,10 50,50" transform="rotate(120 50 50)"/>
+                    <path d="M50,50 Q50,10 50,10 Q50,10 50,50" transform="rotate(180 50 50)"/>
+                    <path d="M50,50 Q50,10 50,10 Q50,10 50,50" transform="rotate(240 50 50)"/>
+                    <path d="M50,50 Q50,10 50,10 Q50,10 50,50" transform="rotate(300 50 50)"/>
+                </g>
+                <circle cx="50" cy="50" r="6" fill="#f59e0b"/>
+            </svg>
+        </div>
+
+        <div class="flower f4">
+            <svg viewBox="0 0 100 200">
+                <path d="M50,200 Q55,140 50,60" stroke="#10b981" stroke-width="4" fill="none"/>
+                <path d="M50,110 Q30,100 45,85" fill="#059669"/>
+                <path d="M35,60 C30,30 45,25 50,50 C55,25 70,30 65,60 Z" fill="#ff477e"/>
+                <path d="M42,60 C40,40 48,35 50,55 C52,35 60,40 58,60 Z" fill="#ff7096"/>
+            </svg>
+        </div>
+
+        <div class="flower f5">
+            <svg viewBox="0 0 100 200">
+                <path d="M50,200 Q45,130 50,65" stroke="#10b981" stroke-width="4" fill="none"/>
+                <path d="M50,130 Q70,120 55,100" fill="#059669"/>
+                <g fill="#f59e0b">
+                    <ellipse cx="50" cy="45" rx="5" ry="15" />
+                    <ellipse cx="50" cy="85" rx="5" ry="15" />
+                    <ellipse cx="30" cy="65" rx="15" ry="5" />
+                    <ellipse cx="70" cy="65" rx="15" ry="5" />
+                    <ellipse cx="50" cy="65" rx="6" ry="16" transform="rotate(45 50 65)" />
+                    <ellipse cx="50" cy="65" rx="6" ry="16" transform="rotate(-45 50 65)" />
+                </g>
+                <circle cx="50" cy="65" r="11" fill="#451a03"/>
+            </svg>
+        </div>
+
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const garden = document.getElementById('garden');
+
+        playBtn.addEventListener('click', () => {
+            garden.classList.toggle('bloom');
+            if (garden.classList.contains('bloom')) {
+                playBtn.innerText = 'Reset Animation';
+            } else {
+                playBtn.innerText = 'Play Animation';
+            }
+        });
+    </script>
+</body>
+</html>
